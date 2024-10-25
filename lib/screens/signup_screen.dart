@@ -9,17 +9,17 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.all(90),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
         child: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //icono de usuario
-                Text(
+                const Text(
                   'Crear Cuenta',
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -64,20 +64,21 @@ class SignupScreen extends StatelessWidget {
                     text: '¿Ya tienes una cuenta? ',
                     style: const TextStyle(
                       fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Inicia sesión aquí',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
-                        ),
+                      color: Colors.black,
                       ),
-                    ],
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Inicia sesión aquí',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            //que sea del color principal de la app
+                            color: Theme.of(context).colorScheme.primary, // Usa el color principal del esquema de colores
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

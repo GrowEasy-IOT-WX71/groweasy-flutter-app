@@ -4,34 +4,40 @@ class SubscriptionCard extends StatelessWidget {
   final String title;
   final String price;
   final String imagePath;
+  final bool isSelected; // Para destacar si la tarjeta está seleccionada
 
-  SubscriptionCard({
+  const SubscriptionCard({
     required this.title,
     required this.price,
     required this.imagePath,
+    this.isSelected = false, // Valor predeterminado: no seleccionado
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0), // Bordes redondeados
+        side: BorderSide(
+          color: isSelected ? Colors.green : Colors.transparent, // Borde verde si está seleccionado
+          width: 2,
+        ),
       ),
+      elevation: 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
             child: Image.asset(
               imagePath,
+              fit: BoxFit.cover,
               height: 150,
               width: double.infinity,
-              fit: BoxFit.cover,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -40,15 +46,15 @@ class SubscriptionCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 8),
                 Text(
                   price,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green, // Color verde para el precio
                   ),
                 ),
               ],

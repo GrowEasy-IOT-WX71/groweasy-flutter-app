@@ -11,7 +11,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(90),
+        padding: const EdgeInsets.all(40),
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -26,7 +26,7 @@ class LoginScreen extends StatelessWidget {
                 const Text(
                   'Iniciar Sesión',
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -104,7 +104,6 @@ class LoginScreen extends StatelessWidget {
                         horizontal: 50, vertical: 15),
                     textStyle: const TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   child: const Text('Iniciar Sesión'),

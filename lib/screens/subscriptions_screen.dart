@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import '../widgets/subscription_card_widget.dart';
+import 'home_screen.dart'; // Asegúrate de importar la pantalla de Home
 
-class SubscriptionsScreen extends StatelessWidget {
+class SubscriptionsScreen extends StatefulWidget {
+  @override
+  _SubscriptionsScreenState createState() => _SubscriptionsScreenState();
+}
+
+class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
+  String? selectedPlan; // Variable para almacenar el plan seleccionado
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('SUSCRIPCIONES'),
         centerTitle: true,
-        backgroundColor: Colors.blueGrey,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -16,10 +24,9 @@ class SubscriptionsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'SUSCRIPCIONES',
+              'Selecciona tu plan',
               style: TextStyle(
                 fontSize: 24,
-                fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
               textAlign: TextAlign.center,
@@ -28,28 +35,81 @@ class SubscriptionsScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  SubscriptionCard(
-                    title: 'Plan Básico',
-                    price: 's/. 10 mes',
-                    imagePath: 'assets/images/plans/basic.jpg',
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedPlan = 'Plan Básico';
+                      });
+                    },
+                    child: SubscriptionCard(
+                      title: 'Plan Básico',
+                      price: 's/. 10 mes',
+                      imagePath: 'assets/images/plans/basic.jpg',
+                      isSelected: selectedPlan == 'Plan Básico', // Marcar como seleccionado
+                    ),
                   ),
                   SizedBox(height: 16),
-                  SubscriptionCard(
-                    title: 'Plan Standard',
-                    price: 's/. 30 mes',
-                    imagePath: 'assets/images/plans/standar.jpg',
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedPlan = 'Plan Standard';
+                      });
+                    },
+                    child: SubscriptionCard(
+                      title: 'Plan Standard',
+                      price: 's/. 30 mes',
+                      imagePath: 'assets/images/plans/standar.jpg',
+                      isSelected: selectedPlan == 'Plan Standard',
+                    ),
                   ),
                   SizedBox(height: 16),
-                  SubscriptionCard(
-                    title: 'Plan Premium',
-                    price: 's/. 80 mes',
-                    imagePath: 'assets/images/plans/premiun.jpg',
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedPlan = 'Plan Premium';
+                      });
+                    },
+                    child: SubscriptionCard(
+                      title: 'Plan Premium',
+                      price: 's/. 80 mes',
+                      imagePath: 'assets/images/plans/premiun.jpg',
+                      isSelected: selectedPlan == 'Plan Premium',
+                    ),
                   ),
                 ],
               ),
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (selectedPlan != null) {
+            // Mostrar el SnackBar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Has seleccionado el $selectedPlan'),
+              ),
+            );
+
+            // Redirigir a la pantalla de Home después de seleccionar el plan
+            Future.delayed(Duration(seconds: 1), () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(), // Pantalla de Home
+                ),
+              );
+            });
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Por favor selecciona un plan.'),
+              ),
+            );
+          }
+        },
+        child: Icon(Icons.check), // Icono de confirmación
       ),
     );
   }

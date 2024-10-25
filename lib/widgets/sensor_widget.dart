@@ -14,9 +14,8 @@ class SensorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
       child: Container(
-        width: 250, // Ancho del widget
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade300),
@@ -26,16 +25,13 @@ class SensorWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start, // Alinear textos a la izquierda
           children: [
             // Imagen del sensor, con tamaño más grande
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                height: 200,
-                imagePath, // Aumentar tamaño de la imagen
-                width: double.infinity, // Ocupar todo el ancho disponible
-                fit: BoxFit.contain, // Ajustar la imagen para que no pierda proporción
-              ),
+            Image.asset(
+              height: 200,
+              imagePath, // Aumentar tamaño de la imagen
+              width: double.infinity, // Ocupar todo el ancho disponible
+              fit: BoxFit.contain, // Ajustar la imagen para que no pierda proporción
             ),
-            Divider(color: Colors.grey), // Línea divisoria
+            const Divider(color: Colors.grey), // Línea divisoria
             // Título del sensor
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
