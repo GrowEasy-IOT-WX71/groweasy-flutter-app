@@ -1,48 +1,34 @@
 import 'package:flutter/material.dart';
 
-class SensorConfigurationScreen extends StatefulWidget {
+class SensorConfigurationDialog extends StatefulWidget {
   final String sensorName;
 
-  const SensorConfigurationScreen({super.key, required this.sensorName});
+  const SensorConfigurationDialog({super.key, required this.sensorName});
 
   @override
-  _SensorConfigurationScreenState createState() =>
-      _SensorConfigurationScreenState();
+  _SensorConfigurationDialogState createState() =>
+      _SensorConfigurationDialogState();
 }
 
-class _SensorConfigurationScreenState extends State<SensorConfigurationScreen> {
+class _SensorConfigurationDialogState extends State<SensorConfigurationDialog> {
   double samplingInterval = 5.0;
   RangeValues temperatureRange = const RangeValues(10, 15);
   RangeValues alertThreshold = const RangeValues(5, 15);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          widget.sensorName,
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+    return AlertDialog(
+      title: Text(
+        widget.sensorName,
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+      content: SingleChildScrollView(
         child: Column(
-
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 40),
-
             const Text(
               'Intervalo de muestreo (minutos)',
               style: TextStyle(fontSize: 18),
@@ -59,6 +45,7 @@ class _SensorConfigurationScreenState extends State<SensorConfigurationScreen> {
                 });
               },
             ),
+            const SizedBox(height: 16),
             const Text(
               'Rango de temperatura (°C)',
               style: TextStyle(fontSize: 18),
@@ -78,6 +65,7 @@ class _SensorConfigurationScreenState extends State<SensorConfigurationScreen> {
                 });
               },
             ),
+            const SizedBox(height: 16),
             const Text(
               'Umbrales de alerta (°C)',
               style: TextStyle(fontSize: 18),
@@ -100,18 +88,25 @@ class _SensorConfigurationScreenState extends State<SensorConfigurationScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Aquí puedes manejar el evento de actualización del sensor
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  'Parámetros del sensor ${widget.sensorName} actualizados'),
-            ),
-          );
-        },
-        child: const Icon(Icons.save),
-      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context), // Cierra el diálogo sin guardar
+          child: const Text('Cancelar'),
+        ),
+        TextButton(
+          onPressed: () {
+            // Aquí puedes manejar el evento de actualización del sensor
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                    'Parámetros del sensor ${widget.sensorName} actualizados'),
+              ),
+            );
+            Navigator.pop(context); // Cierra el diálogo después de guardar
+          },
+          child: const Text('Guardar'),
+        ),
+      ],
     );
   }
 }

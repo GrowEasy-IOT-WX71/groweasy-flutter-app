@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grow_easy_mobile_application/screens/main_screen.dart';
 import '../widgets/subscription_card_widget.dart';
 import 'home_screen.dart'; // Asegúrate de importar la pantalla de Home
 
@@ -97,7 +98,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(), // Pantalla de Home
+                  builder: (context) => MainScreen(), // Pantalla de Home
                 ),
               );
             });

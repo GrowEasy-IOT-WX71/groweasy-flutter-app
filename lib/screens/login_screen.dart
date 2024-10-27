@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:grow_easy_mobile_application/screens/home_screen.dart';
+import 'package:grow_easy_mobile_application/screens/main_screen.dart';
 import 'package:grow_easy_mobile_application/screens/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,12 +17,10 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                //icono de usuario
                 const Icon(
                   Icons.account_circle_outlined,
                   size: 90,
                 ),
-
                 const Text(
                   'Iniciar Sesión',
                   style: TextStyle(
@@ -32,19 +30,17 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const Divider(
                     endIndent: 20, indent: 20, height: 60, thickness: 3),
-
                 const TextField(
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Nombre de usuario',
                     hintText: 'Ingrese su nombre de usuario',
                   ),
                 ),
                 const SizedBox(height: 20),
-
                 const TextField(
                   obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Contraseña',
                     hintText: 'Ingrese su contraseña',
@@ -52,8 +48,6 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const Divider(
                     endIndent: 20, indent: 20, height: 60, thickness: 3),
-
-                //¿Aún no tienes una cuenta? Regístrate aqui! en letras y el registrate que sea un link a otra pantalla
                 RichText(
                   text: TextSpan(
                     text: '¿Aún no tienes una cuenta? ',
@@ -71,12 +65,11 @@ class LoginScreen extends StatelessWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Usar Navigator.push para navegar a la pantalla de registro
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (BuildContext context) {
-                                  return SignupScreen(); // Pantalla a la que navegas
+                                  return SignupScreen();
                                 },
                               ),
                             );
@@ -85,16 +78,14 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 FilledButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (BuildContext context) {
-                          return HomeScreen();
+                          return const MainScreen(); // Navega a MainScreen después de iniciar sesión
                         },
                       ),
                     );

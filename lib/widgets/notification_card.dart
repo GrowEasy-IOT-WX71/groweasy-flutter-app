@@ -6,6 +6,7 @@ class NotificationCard extends StatelessWidget {
   final String imagePath;
 
   const NotificationCard({
+    super.key,
     required this.title,
     required this.description,
     required this.imagePath,
@@ -17,37 +18,37 @@ class NotificationCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
         side: BorderSide(
-          color: Colors.black26, // Color del borde
+          color: Colors.black26,
           width: 1,
         ),
       ),
-      elevation: 2, // Sombra para darle un poco de profundidad
+      elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8.0), // Bordes redondeados para la imagen
+              borderRadius: BorderRadius.circular(8.0),
               child: Image.asset(
                 imagePath,
-                width: 50,
+                width: 50, // Limita el ancho de la imagen
                 height: 50,
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(width: 12),
-            Expanded(
+            const SizedBox(width: 12),
+            Expanded( // Utiliza Expanded para evitar overflow
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     description,
                     style: TextStyle(

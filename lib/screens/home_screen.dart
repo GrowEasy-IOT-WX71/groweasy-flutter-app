@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grow_easy_mobile_application/screens/sensor_configuration_screen.dart';
-import 'package:grow_easy_mobile_application/widgets/navigation_bar_custom.dart';
+import 'package:grow_easy_mobile_application/widgets/sensor_configuration.dart';
 import 'package:grow_easy_mobile_application/widgets/sensor_widget.dart';
 
 // Simulación de datos que podrías obtener de una API
@@ -20,17 +19,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // En un futuro, estos datos vendrían de una API
   late List<Map<String, String>> sensorData;
 
   @override
   void initState() {
     super.initState();
-    // Aquí simulas la asignación de datos desde una API
     sensorData = sensores;
   }
 
-  // Función para determinar la imagen correcta según el tipo de sensor
   String _getImagePath(String sensorType) {
     switch (sensorType) {
       case 'temperatura':
@@ -40,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 'ph':
         return 'assets/images/sensor_ph.webp';
       default:
-        return 'assets/images/default_sensor.png'; // Imagen por defecto si no se reconoce el tipo
+        return 'assets/images/default_sensor.png';
     }
   }
 
@@ -77,12 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   var sensor = sensorData[index];
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SensorConfigurationScreen(
-                            sensorName: sensor['name'] ?? 'Sensor Desconocido',
-                          ),
+                      showDialog(
+                        context: context,
+                        builder: (context) => SensorConfigurationDialog(
+                          sensorName: sensor['name'] ?? 'Sensor Desconocido',
                         ),
                       );
                     },
