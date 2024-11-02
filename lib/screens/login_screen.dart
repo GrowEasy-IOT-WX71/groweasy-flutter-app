@@ -1,10 +1,69 @@
+import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:grow_easy_mobile_application/screens/main_screen.dart';
 import 'package:grow_easy_mobile_application/screens/signup_screen.dart';
+import 'package:http/http.dart' as http;
 
-class LoginScreen extends StatelessWidget {
+import '../model/login_request.dart';
+import '../model/login_response.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    final url = Uri.parse('https://groweasy.azurewebsites.net/api/v1/auth/log-in');
+    final loginRequest = LoginRequest(
+      username: _usernameController.text,
+      password: _passwordController.text,
+    );
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(loginRequest.toJson()),
+      );
+
+      if (response.statusCode != 200) {
+        _showError('Error: ${response.statusCode}');
+      } else {
+        final jsonResponse = json.decode(response.body);
+        final loginResponse = LoginResponse.fromJson(jsonResponse);
+
+        if (loginResponse.status) {
+          // Navega a MainScreen si el login es exitoso
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const MainScreen();
+              },
+            ),
+          );
+        } else {
+          // Muestra un mensaje si el login falla
+          _showError(loginResponse.message);
+        }
+      }
+    } catch (error) {
+      _showError('Error: No se pudo conectar al servidor');
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +89,19 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const Divider(
                     endIndent: 20, indent: 20, height: 60, thickness: 3),
-                const TextField(
-                  decoration: InputDecoration(
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Nombre de usuario',
                     hintText: 'Ingrese su nombre de usuario',
                   ),
                 ),
                 const SizedBox(height: 20),
-                const TextField(
+                TextField(
+                  controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Contraseña',
                     hintText: 'Ingrese su contraseña',
@@ -80,16 +141,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 FilledButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return const MainScreen(); // Navega a MainScreen después de iniciar sesión
-                        },
-                      ),
-                    );
-                  },
+                  onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 15),
