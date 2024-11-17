@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grow_easy_mobile_application/screens/main_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/subscription_card_widget.dart';
 import 'home_screen.dart'; // Asegúrate de importar la pantalla de Home
 
@@ -84,8 +85,12 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
           if (selectedPlan != null) {
+            // Guardar la selección de plan en SharedPreferences (opcional)
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('selectedPlan', selectedPlan!);
+
             // Mostrar el SnackBar
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -112,6 +117,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
         },
         child: Icon(Icons.check), // Icono de confirmación
       ),
+
     );
   }
 }

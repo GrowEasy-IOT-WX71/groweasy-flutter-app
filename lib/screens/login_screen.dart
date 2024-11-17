@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grow_easy_mobile_application/screens/main_screen.dart';
 import 'package:grow_easy_mobile_application/screens/signup_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../model/login_request.dart';
 import '../model/login_response.dart';
@@ -33,14 +34,17 @@ class _LoginScreenState extends State<LoginScreen> {
         body: json.encode(loginRequest.toJson()),
       );
 
-      if (response.statusCode != 200) {
-        _showError('Error: ${response.statusCode}');
-      } else {
+      if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         final loginResponse = LoginResponse.fromJson(jsonResponse);
 
         if (loginResponse.status) {
-          // Navega a MainScreen si el login es exitoso
+          // Guardar el JWT y el nombre de usuario localmente usando SharedPreferences
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('jwt', loginResponse.jwt);
+          await prefs.setString('username', _usernameController.text);
+
+          // Navegar a MainScreen si el login es exitoso
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -50,9 +54,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         } else {
-          // Muestra un mensaje si el login falla
           _showError(loginResponse.message);
         }
+      } else {
+        final jsonResponse = json.decode(response.body);
+        final errorMessage = jsonResponse['message'] ?? 'Error: ${response.statusCode}';
+        _showError(errorMessage);
       }
     } catch (error) {
       _showError('Error: No se pudo conectar al servidor');
